@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decoraciones Josselyn - Gestión de Eventos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+
+    <header>
+        <div class="logo">DECORACIONES JOSSELYN</div>
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link active" data-view="dashboard">Inicio</a></li>
+                <li><a href="#" class="nav-link" data-view="add-client">Evento Nuevo</a></li>
+                <li><a href="#" class="nav-link" data-view="calendar">Calendario</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="app-container">
+        <!-- Dashboard Content (Default) -->
+        <section id="dashboard" class="view">
+            <div class="search-container" style="margin-bottom: 2rem;">
+                <input type="text" id="search-input" placeholder="🔍 Buscar por evento o cliente..."
+                    style="width: 100%; border-radius: 25px;">
+            </div>
+
+            <div id="reminders-container">
+                <!-- Reminders will be injected here -->
+            </div>
+
+            <div class="glass-card">
+                <h3 style="margin-bottom: 1.5rem;">Próximas Decoraciones</h3>
+                <div id="upcoming-list" class="client-grid">
+                    <!-- List cards will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar View -->
+        <section id="calendar" class="view" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1>Calendario de Eventos</h1>
+                <div class="calendar-nav">
+                    <button id="prev-month" class="secondary-btn" style="padding: 0.5rem 1rem;">&lt;</button>
+                    <span id="current-month-display"
+                        style="font-family: var(--font-serif); font-size: 1.2rem; margin: 0 1rem; min-width: 150px; text-align: center; display: inline-block;">Mes
+                        Año</span>
+                    <button id="next-month" class="secondary-btn" style="padding: 0.5rem 1rem;">&gt;</button>
+                </div>
+            </div>
+            <div class="glass-card calendar-container">
+                <div class="calendar-header-days">
+                    <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+                </div>
+                <div id="calendar-grid" class="calendar-grid">
+                    <!-- Days will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Client View (Hidden by default) -->
+        <section id="add-client" class="view" style="display: none;">
+            <h1 id="form-title">Registrar Evento Nuevo</h1>
+            <div class="glass-card">
+                <form id="client-form">
+                    <input type="hidden" id="edit-client-id">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-name">Nombre del Registro / Evento</label>
+                            <input type="text" id="event-name" required placeholder="Ej. Bautizo de Mateo">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-name">Nombre del Cliente</label>
+                            <input type="text" id="client-name" required placeholder="Ej. Ana García">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-phone">Teléfono</label>
+                            <input type="tel" id="client-phone" required placeholder="Ej. +34 600 000 000">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-date">Fecha de la Decoración</label>
+                            <input type="date" id="event-date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-address">Dirección / Lugar del Evento</label>
+                            <input type="text" id="client-address" placeholder="Ej. Calle Principal 123, Sala Alhambra">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-location-url">Link de Google Maps (Ubicación)</label>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <input type="url" id="client-location-url" placeholder="https://maps.google.com/...">
+                                <button type="button" id="open-maps-btn"
+                                    style="padding: 0 1rem; white-space: nowrap; font-size: 0.7rem; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid var(--glass-border);">Ir
+                                    a Maps</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-color">Color de Categoría / Tema</label>
+                            <input type="color" id="client-color" value="#D4AF37"
+                                style="height: 40px; padding: 2px; cursor: pointer;">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-image">Imagen de Referencia</label>
+                            <input type="file" id="client-image" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div id="image-preview-container" style="margin-bottom: 1rem; display: none; text-align: center;">
+                        <img id="image-preview" src="" alt="Vista previa"
+                            style="max-width: 100%; border-radius: 8px; max-height: 150px; object-fit: cover; border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nota de Voz / Audio</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                            <button type="button" id="start-record-btn"
+                                style="background: #ff4b2b; padding: 0.5rem 1rem;">🎤 Grabar</button>
+                            <button type="button" id="stop-record-btn"
+                                style="background: var(--text-muted); padding: 0.5rem 1rem; display: none;">⏹
+                                Detener</button>
+                            <span id="recording-status"
+                                style="color: #ff4b2b; font-size: 0.75rem; display: none; font-weight: 700;">●
+                                GRABANDO...</span>
+                        </div>
+                        <div id="audio-preview-container" style="display: none;">
+                            <audio id="audio-preview" controls style="width: 100%; height: 35px;"></audio>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additional-data">Detalles Adicionales (Tema, etc.)</label>
+                        <textarea id="additional-data" rows="3"
+                            placeholder="Ej. Fiesta temática de Selva..."></textarea>
+                    </div>
+                    <button type="submit">Guardar Evento</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
